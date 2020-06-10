@@ -1,0 +1,40 @@
+const path = require('path');
+function resolve(dir) {
+    return path.join(__dirname, dir)
+}
+
+
+module.exports = {
+    // publicPath:"/pages/check/",
+    // outputDir: 'dist/pages/check',
+    devServer: {
+        port: 8088,     // 端口
+    },
+    // 生产环境是否生成 sourceMap 文件
+    productionSourceMap: false,
+    configureWebpack: {
+        resolve: {
+            alias: {
+                '@assets': '@/assets',
+                // '@components': '@/components',
+                '@components': resolve('/src/components/'),
+                '@views': '@/views',
+                '@styles': '@/styles',
+                '@plugins': '@/plugins'
+            }
+        }
+    },
+    css: {
+        loaderOptions: {
+            sass: {
+                data: `@import "@/styles/common.scss";`
+            },
+        }
+    },
+    chainWebpack: config => {
+        // 移除 prefetch 插件
+        config.plugins.delete('prefetch')
+        // 移除 preload 插件
+        config.plugins.delete('preload');
+    }
+}
